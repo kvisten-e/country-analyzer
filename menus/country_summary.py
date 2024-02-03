@@ -20,6 +20,7 @@ class summary_country:
   def see_all_countries(self):  
     print("test")
     
+    
   
   def __init__(self):
     self.choose_country()
