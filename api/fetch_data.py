@@ -1,9 +1,11 @@
 import wbgapi as wb
 import datetime
-from save_data import save_data_inflation, save_data_gdp, save_interest_rate_gdp
+from .save_data import save_data_inflation, save_data_gdp, save_interest_rate_gdp
 import urllib, json
+from country_codes.convert_country_code import list_country_codes
 
-european_countries = ["AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU", "LUX", "MLT", "NLD", "POL", "PRT", "ROU", "SVK", "SVN", "ESP", "SWE"]
+#european_countries = ["AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU", "LUX", "MLT", "NLD", "POL", "PRT", "ROU", "SVK", "SVN", "ESP", "SWE"]
+european_countries = list_country_codes()
 
 def years_for_data():  
   return [datetime.datetime.now().year-6, datetime.datetime.now().year]
@@ -11,7 +13,7 @@ year = years_for_data()
 
 
 def inflation_data():
-  message = ''
+  
   inflation_data_api = {}
   try:
     data = wb.data.fetch('FP.CPI.TOTL.ZG', european_countries, range(year[0], year[1]))
@@ -22,14 +24,14 @@ def inflation_data():
         inflation_data_api[row['economy']][int(row['time'][2:])] = round(row['value'],2)
       
   except Exception as e:
-    message = 'Failed to fetch new inflation data'
-  
+    return {"message": 'Failed to fetch new inflation data', "status": False, "last_updated": get_last_updated_date('inflation')}
+    
   try:  
     save_data_inflation(inflation_data_api)
   except:
-    message = 'Failed to save new inflation data to json'  
-  return message
-  
+    return {"message": 'Failed to save new inflation data to json', "status": False, "last_updated": get_last_updated_date('inflation')}
+
+  return {"message": "Success", "status": True, "last_updated": get_last_updated_date('inflation')}
   
 def gdp_data():
   message = ''
@@ -43,13 +45,13 @@ def gdp_data():
         gdp_data_api[row['economy']][int(row['time'][2:])] = round(row['value'])
       
   except Exception as e:
-    message = 'Failed to fetch new gdp data'
-  
+    return {"message": 'Failed to fetch new gdp data' , "status": False, "last_updated": get_last_updated_date('GDP')}
   try:  
     save_data_gdp(gdp_data_api)
   except:
-    message = 'Failed to save new gdp data to json'  
-  return message
+    return {"message": 'Failed to save new gdp data to json' , "status": False, "last_updated": get_last_updated_date('GDP')}
+   
+  return {"message": "Success", "status": True, "last_updated": get_last_updated_date('GDP')}
 
 def interest_rate_data():
   message = ''
@@ -85,10 +87,20 @@ def interest_rate_data():
       interest_data_api[country] = trim_values
       
   except Exception as e:
-    message = 'Failed to fetch new interest rate data'
-  
+    return {"message": 'Failed to fetch new interest rate data'  , "status": False , "last_updated": get_last_updated_date('interest_rate')}
   try:  
     save_interest_rate_gdp(interest_data_api)
   except:
-    message = 'Failed to save new intrerest data to json'  
-  return message
+    return {"message": 'Failed to save new intrerest data to json'  , "status": False , "last_updated": get_last_updated_date('interest_rate')}
+    
+  return {"message": "Success", "status": True, "last_updated": get_last_updated_date('interest_rate')}
+
+
+
+# Denna funktionen retunerar vilket datum ifrån JSON file som en dict senast blivit uppdaterad. Type är om det är inflations- dgb eller räntedata 
+def get_last_updated_date(type):
+  with open('api/data.json', 'r') as file:
+    data_json = json.load(file)
+    return data_json[type]['last_updated']
+    
+      
