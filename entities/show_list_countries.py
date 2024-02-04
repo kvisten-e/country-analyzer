@@ -11,4 +11,6 @@ class list_countries:
     country_list = data['code'] + " | " + data['Country']
     for country in country_list:
       print(country)
+      
+    return data
     

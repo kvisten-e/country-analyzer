@@ -1,4 +1,5 @@
 from .country_summary import summary_country
+import program
 
 class main_menu:
   def show_main_menu(self):
@@ -20,7 +21,9 @@ class main_menu:
 #              case "3":
 #              case "4":
 #              case "5":
-#              case "6":
+              case "6":
+                run = False
+                program.close_program()
               case _:
                 print("Wrong input, try again..")
 
