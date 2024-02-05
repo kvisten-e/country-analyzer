@@ -3,6 +3,7 @@ import country_codes.convert_country_code as cc
 import entities.show_data_country as sdc
 import entities.estimate_future_values as ef
 import pandas as pd
+import datetime
 
 
 class summary_country:
@@ -30,9 +31,10 @@ class summary_country:
     print("\n1. Jämnför data med ett annat land"
           "\n2. Skapa prognos efter x år"
           "\n3. Gå till start meny")
-    answer = input("-> ").strip()
+    
     run = True
     while run:
+      answer = input("-> ").strip()
       match answer:
         case "1":
           run = True
@@ -44,13 +46,19 @@ class summary_country:
             else:
               print("Landet finns inte med, testa igen")
         case "2":
-          estimate_year = int(input("Välj ett år: "))
-          ef.estimate_future(estimate_year, country_code)
+          choose_year = True
+          while choose_year:
+            estimate_year = int(input("Välj ett år: "))
+            if estimate_year > datetime.datetime.now().year:
+              run = False
+              choose_year = False
+              ef.estimate_future(estimate_year, country_code)
+            else:
+              print("Choose a year larger than this year")
         case "3":
           run = False
         case _:
           print("Wrong input, try again")
-          e = input("hej")
         
   
   def see_all_countries(self):  

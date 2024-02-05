@@ -1,31 +1,78 @@
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 import numpy as np
+from .show_data_country import *
 
+def estimate_future(year, code):
+  data_total = get_country_data(code)
 
-def estimate_future(year,):
-  data = {
-      'Year': [2018, 2019, 2020, 2021, 2022],
-      'Inflation': [0.49, 0.94, -0.33, 2.36, 7.81]
-  }
+  for each_type in data_total:
+    print(f"{each_type['type']} estimate based on Linear Regression" )  
+    
+    match each_type['type']:
+      case 'inflation':
+        data = {
+          'Year': each_type['year'],
+          each_type['type']: each_type['value']
+        }
+        # Create a DataFrame
+        df = pd.DataFrame(data)
 
-  # Create a DataFrame
-  df = pd.DataFrame(data)
+        # Reshape the data (scikit-learn expects a 2D array for the independent variables)
+        x = df['Year'].values.reshape(-1, 1)  # Independent variable
+        y = df[each_type['type']].values  # Dependent variable
 
-  # Reshape the data (scikit-learn expects a 2D array for the independent variables)
-  x = df['Year'].values.reshape(-1, 1)  # Independent variable
-  y = df['Inflation'].values  # Dependent variable
+        # Create and fit the model
+        model = LinearRegression()
+        model.fit(x, y)
 
-  # Create and fit the model
-  model = LinearRegression()
-  model.fit(x, y)
+        # Predict the inflation for year
+        forecast_year = np.array([[year]])
+        predicted_inflation = model.predict(forecast_year)
+        predicted_inflation = round(predicted_inflation[0],2)
+        # Loc tillåter mig att lägga till nytt värde i min dataframe baserat på vilket index jag väljer att det nya värdet ska hamna på
+        df.loc[len(df)] = [year, predicted_inflation]
+        df = df.sort_values(by='Year')
+        
+        df[each_type['type']] = df[each_type['type']].apply(lambda x: f"{round(x,2)}%")
+        df['Year'] = df['Year'].apply(lambda x: f" est. {int(x)}" if int(x) > datetime.datetime.now().year else int(x))        
+        no_index = df.to_string(index=False)
+        print(no_index, "\n")
+        
+      case 'GDP':
+        
+        gdp_text = f"{each_type['type']} (billions)"
+        data = {
+          'Year': each_type['year'],
+          gdp_text: each_type['value']
+        }
+        
+        df = pd.DataFrame(data)
 
-  # Predict the inflation for 2025
-  forecast_year = np.array([[2025]])
-  predicted_inflation = model.predict(forecast_year)
-  predicted_inflation = round(predicted_inflation[0],2)
+        x = df['Year'].values.reshape(-1, 1)  
+        y = df[gdp_text].values
 
-  print(f"Forecasted inflation rate for 2025: {predicted_inflation}%")
+        model = LinearRegression()
+        model.fit(x, y)
+
+        forecast_year = np.array([[year]])
+        predicted_inflation = model.predict(forecast_year)
+        predicted_inflation = round(predicted_inflation[0],2)
+
+        df.loc[len(df)] = [year, predicted_inflation]
+        df = df.sort_values(by='Year')
+        df[gdp_text] = df[gdp_text].apply(lambda x: f"{round(x/1000000000)}")
+        df['Year'] = df['Year'].apply(lambda x: f" est. {int(x)}" if int(x) > datetime.datetime.now().year else int(x))        
+        no_index = df.to_string(index=False)
+        print(no_index, "\n")
+        
+      case 'interest_rate':
+        if year > each_type['year'][-1:][0]:
+          print("Då åker vi")
+        else:
+          print("Struntsamma")
+          
+  
 
 
 
