@@ -91,38 +91,3 @@ def estimate_future(year, code):
         df['Year'] = df['Year'].apply(lambda x: f" est. {int(x)}" if int(x) > datetime.datetime.now().year else int(x))        
         no_index = df.to_string(index=False)
         print(no_index, "\n")
-
-
-
-
-
-
-
-""" import matplotlib.pyplot as plt
-
-# Continue from the previous example...
-
-# Predict for the range of years in the dataset and the forecast year
-X_future = np.array([[year] for year in range(2018, 2026)])  # Up to 2025
-y_future = model.predict(X_future)
-
-# Plot the historical data
-plt.scatter(df['Year'], df['Inflation'], color='black', label='Historical Data')
-
-# Plot the regression line
-plt.plot(X_future, y_future, color='blue', linestyle='-', label='Forecast')
-
-# Highlight the forecasted year
-plt.scatter(2025, predicted_inflation, color='red', label='2025 Forecast')
-
-# Adding titles and labels
-plt.title('Inflation Forecast')
-plt.xlabel('Year')
-plt.ylabel('Inflation Rate (%)')
-plt.legend()
-
-# Save the plot to a file
-plt.savefig('inflation_forecast.png')
-
-# Show the plot
-plt.show() """
