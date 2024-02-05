@@ -5,7 +5,6 @@ import entities.estimate_future_values as ef
 import pandas as pd
 import datetime
 
-
 class summary_country:
 
   def choose_country(self):
@@ -14,23 +13,23 @@ class summary_country:
     run = True
     while run:
       try:
-        print("\n -- Meny: Se ett lands finansiella utveckling --")
-        answer = input("Välj land (ex. SWE): ").strip()
+        print("\n -- Menu: View a country's financial development --")
+        answer = input("Choose country (e.g., SWE): ").strip()
         if self.check_country_code_exist(answer.strip().upper()):
           run = False
           print("\n", cc.single_country_code(answer.upper()), "\n")  
           sdc.print_country_data(answer.upper())    
           self.menu_summary(answer.upper())
         else:
-          print("Landet finns inte med, testa igen")
+          print("The country does not exist, try again")
       except Exception as e:
-        print("Något gick fel, testa igen.", e)
+        print("Something went wrong, try again.", e)
     
       
   def menu_summary(self, country_code):
-    print("\n1. Jämnför data med ett annat land"
-          "\n2. Skapa prognos efter x år"
-          "\n3. Gå till start meny")
+    print("\n1. Compare data with another country"
+          "\n2. Create forecast for X years"
+          "\n3. Go to start menu")
     
     run = True
     while run:
@@ -39,16 +38,19 @@ class summary_country:
         case "1":
           run = True
           while run:
-            answer = input("Välj land (ex. SWE): ").strip().upper()
+            answer = input("Choose country (e.g., SWE): ").strip().upper()
             if self.check_country_code_exist(answer):
-              run = False
-              sdc.compare_countries(country_code, answer)
+              if country_code != answer:
+                run = False
+                sdc.compare_countries(country_code, answer)
+              else:
+                print("The countries cannot be the same as each other")  
             else:
-              print("Landet finns inte med, testa igen")
+              print("The country does not exist, try again")
         case "2":
           choose_year = True
           while choose_year:
-            estimate_year = int(input("Välj ett år: "))
+            estimate_year = int(input("Choose a year: "))
             if estimate_year > datetime.datetime.now().year:
               run = False
               choose_year = False

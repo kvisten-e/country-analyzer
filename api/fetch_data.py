@@ -79,7 +79,7 @@ def interest_rate_data():
           # Formaterar om året ifrån JSON filen till typen int
           year_row = int(year_str)
           # Plockar bara ut den data som är inom årsspannet, så sparar bara datan där 'year_row' blir True
-          if year_row > year[1]-3 and year_row < year[1]+3:
+          if year_row > year[1]-7 and year_row < year[1]-1:
             # Lägger in datan i 'trim_values
             trim_values[year_str] = rate
             

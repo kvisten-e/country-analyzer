@@ -7,10 +7,10 @@ def estimate_future(year, code):
   data_total = get_country_data(code)
 
   for each_type in data_total:
-    print(f"{each_type['type']} estimate based on Linear Regression" )  
-    
     match each_type['type']:
       case 'inflation':
+        print("Inflation estimated based on Linear Regression")  
+    
         data = {
           'Year': each_type['year'],
           each_type['type']: each_type['value']
@@ -40,7 +40,7 @@ def estimate_future(year, code):
         print(no_index, "\n")
         
       case 'GDP':
-        
+        print("GDP estimated based on Linear Regression")  
         gdp_text = f"{each_type['type']} (billions)"
         data = {
           'Year': each_type['year'],
@@ -66,13 +66,30 @@ def estimate_future(year, code):
         no_index = df.to_string(index=False)
         print(no_index, "\n")
         
-      case 'interest_rate':
-        if year > each_type['year'][-1:][0]:
-          print("Då åker vi")
-        else:
-          print("Struntsamma")
-          
-  
+      case 'interest_rate':        
+        interest_rate_text = f"{each_type['type']}"
+        data = {
+          'Year': each_type['year'],
+          interest_rate_text: each_type['value']
+        }
+        df = pd.DataFrame(data)
+        
+        x = df['Year'].values.reshape(-1, 1)  
+        y = df[interest_rate_text].values  
+
+        model = LinearRegression()
+        model.fit(x, y)
+
+        forecast_year = np.array([[year]])
+        predicted_inflation = model.predict(forecast_year)
+        predicted_inflation = round(predicted_inflation[0],2)
+
+        df.loc[len(df)] = [year, predicted_inflation]
+        
+        df[interest_rate_text] = df[interest_rate_text].apply(lambda x: f"{round(x,2)}%")
+        df['Year'] = df['Year'].apply(lambda x: f" est. {int(x)}" if int(x) > datetime.datetime.now().year else int(x))        
+        no_index = df.to_string(index=False)
+        print(no_index, "\n")
 
 
 
