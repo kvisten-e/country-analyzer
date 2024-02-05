@@ -1,6 +1,4 @@
 import pandas as pd
-from pandas import json_normalize
-import json
 import datetime
 
 grab_json_data = pd.read_json("api/data.json")
@@ -9,21 +7,39 @@ df = pd.DataFrame(grab_json_data)
 
 def print_country_data(country_code):
   for each_data in df:
-    print(each_data)
+    print(f"\n{each_data}")
     country_data_df = df[each_data]['countries'][country_code]
   
-    data_df = {
-      'År': list(map(int, country_data_df.keys())),
-      'Värde': list(country_data_df.values())
-    }
-    
-    data_df = pd.DataFrame(data_df)
-    data_df = data_df.sort_values(by='År')
-    data_df['Förändring % året innan'] = round(data_df['Värde'].pct_change() * 100,1)
-    data_df['Förändring % året innan'] = data_df['Förändring % året innan'].apply(lambda x: f"{x}%")
-    data_df['År'] = data_df['År'].apply(lambda x: f" est. {x}" if int(x) > datetime.datetime.now().year else x)
-    no_index = data_df.to_string(index=False)
-    print(no_index, "\n")
+    if each_data == "GDP":
+      each_data_text = f"{each_data} ($ billions)"
+      data_df = {
+        'Year': list(map(int, country_data_df.keys())),
+        each_data_text: list(country_data_df.values())
+      }      
+      
+      data_df = pd.DataFrame(data_df)
+      data_df = data_df.sort_values(by='Year')
+      data_df[each_data_text] = data_df[each_data_text].apply(lambda x: round(x/1000000000))
+      data_df['Change % from the previous year'] = round(data_df[each_data_text].pct_change() * 100,1)
+      # Jag lägger här till text till den uträknade procentsiffran med ett %-tecken. Jag tar även bort värdet för 2018 då den inte har ett årtal tidigare att jämföras med (pd.notna kollar om x är nan, om så är fallet, gör den tom)
+      data_df['Change % from the previous year'] = data_df['Change % from the previous year'].apply(lambda x: f"{x}%" if pd.notna(x) else "")
+      data_df['Year'] = data_df['Year'].apply(lambda x: f" est. {x}" if int(x) > datetime.datetime.now().year else x)
+      no_index = data_df.to_string(index=False)
+      print(no_index)      
+      
+    else:
+      data_df = {
+        'Year': list(map(int, country_data_df.keys())),
+        each_data: list(country_data_df.values())
+      }
+      
+      data_df = pd.DataFrame(data_df)
+      data_df = data_df.sort_values(by='Year')
+      data_df['Change % from the previous year'] = round(data_df[each_data].pct_change() * 100,1)
+      data_df['Change % from the previous year'] = data_df['Change % from the previous year'].apply(lambda x: f"{x}%" if pd.notna(x) else "")
+      data_df['Year'] = data_df['Year'].apply(lambda x: f" est. {x}" if int(x) > datetime.datetime.now().year else x)
+      no_index = data_df.to_string(index=False)
+      print(no_index)
 
     
 def compare_countries(country_code, compare_country_code):
@@ -68,7 +84,7 @@ def compare_countries(country_code, compare_country_code):
       data_df['Difference in %'] = data_df['Difference in %'].apply(lambda x: f"{x}%")
       data_df['Year'] = data_df['Year'].apply(lambda x: f" est. {x}" if int(x) > datetime.datetime.now().year else x)
       no_index = data_df.to_string(index=False)
-      print(no_index, "\n")
+      print(no_index)
     
 def get_country_data(country_code):
   data_total = []

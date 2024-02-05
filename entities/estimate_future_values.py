@@ -9,7 +9,7 @@ def estimate_future(year, code):
   for each_type in data_total:
     match each_type['type']:
       case 'inflation':
-        print("Inflation estimated based on Linear Regression")  
+        print("\nInflation estimated based on Linear Regression")  
     
         data = {
           'Year': each_type['year'],
@@ -37,10 +37,10 @@ def estimate_future(year, code):
         df[each_type['type']] = df[each_type['type']].apply(lambda x: f"{round(x,2)}%")
         df['Year'] = df['Year'].apply(lambda x: f" est. {int(x)}" if int(x) > datetime.datetime.now().year else int(x))        
         no_index = df.to_string(index=False)
-        print(no_index, "\n")
+        print(no_index)
         
       case 'GDP':
-        print("GDP estimated based on Linear Regression")  
+        print("\nGDP estimated based on Linear Regression")  
         gdp_text = f"{each_type['type']} (billions)"
         data = {
           'Year': each_type['year'],
@@ -66,7 +66,8 @@ def estimate_future(year, code):
         no_index = df.to_string(index=False)
         print(no_index, "\n")
         
-      case 'interest_rate':        
+      case 'interest_rate': 
+        print("\nInterest rate estimated based on Linear Regression")  
         interest_rate_text = f"{each_type['type']}"
         data = {
           'Year': each_type['year'],

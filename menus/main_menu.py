@@ -5,10 +5,10 @@ class main_menu:
   def show_main_menu(self):
         run = True
         while run:
-          print("\n1. View a country's financial development\n"
-                "\n2. View countries' GDP"
-                "\n3. View countries' Inflation"
-                "\n4. View countries' interest rates"
+          print("\n1. View a country's financial development"
+                "\n2. View countries GDP"
+                "\n3. View countries Inflation"
+                "\n4. View countries interest rates"
                 "\n5. Exit")
           answer = input("-> ").strip()
           

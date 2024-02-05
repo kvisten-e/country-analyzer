@@ -17,7 +17,7 @@ class summary_country:
         answer = input("Choose country (e.g., SWE): ").strip()
         if self.check_country_code_exist(answer.strip().upper()):
           run = False
-          print("\n", cc.single_country_code(answer.upper()), "\n")  
+          print(f"\n{cc.single_country_code(answer.upper())}")  
           sdc.print_country_data(answer.upper())    
           self.menu_summary(answer.upper())
         else:
