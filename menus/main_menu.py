@@ -6,11 +6,10 @@ class main_menu:
         run = True
         while run:
             print("\n1. Se ett lands finansiella utveckling\n"
-                  "\n2. Valuta omvandlare"
-                  "\n3. Se länders BNP"
-                  "\n4. Se länders Inflation"
-                  "\n5. Se länders räntor"
-                  "\n6. Avsluta")
+                  "\n2. Se länders GDP"
+                  "\n3. Se länders Inflation"
+                  "\n4. Se länders räntor"
+                  "\n5. Avsluta")
             
             answer = input("-> ").strip()
             
@@ -20,8 +19,7 @@ class main_menu:
 #              case "2":
 #              case "3":
 #              case "4":
-#              case "5":
-              case "6":
+              case "5":
                 run = False
                 program.close_program()
               case _:
