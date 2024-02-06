@@ -13,6 +13,7 @@ class countries_data():
     
     #Kallar på funktionen som skapar ny dict med alla länders data
     country_dict = self.create_dataframe(type)
+    result = self.get_higest_lowest(country_dict)
     
     # Gör en Dataframe av våran nya dict.
     data_df = pd.DataFrame(country_dict)
@@ -21,13 +22,24 @@ class countries_data():
     
     #Plockar bort index värdet för varje rad
     data_df_no_index = data_df.to_string(index=False)
-    print(data_df_no_index)
+    print(data_df_no_index, "\n")
+    
+    for result_dict in result:
+      first_print = True
+      for country, value in result_dict.items():
+        if first_print:
+          print(f"{country} have the highest {type}: {round(value,1)}")
+          first_print = False
+        else:
+          print(f"{country} have the lowest {type}: {round(value,1)}")
 
 
   def list_countries_gdp(self):
     print(f"\nGDP ($ Billions)")
     
     country_dict = self.create_dataframe('GDP')
+    result = self.get_higest_lowest(country_dict)
+    
     
     data_df = pd.DataFrame(country_dict)
     data_df = data_df.sort_values(by='Country')
@@ -35,11 +47,39 @@ class countries_data():
     # Pågrund av divisionen så konverteras x till ett float64, vart tvungen att göra en .round() för att bli av med decimalerna och sedan en .astype() för att göra den till en int64 igen
     data_df.iloc[:, 1:] = data_df.iloc[:, 1:].apply(lambda x: (x/1000000000).round().astype('int64'))
     data_df_no_index = data_df.to_string(index=False)
-    print(data_df_no_index)      
+    print(data_df_no_index, "\n")      
+    
+    for result_dict in result:
+      first_print = True
+      for country, value in result_dict.items():
+        if first_print:
+          print(f"{country} have the highest GDP: {round(value / 1000000000)}")
+          first_print = False
+        else:
+          print(f"{country} have the lowest GDP: {round(value / 1000000000)}")
+    
+  def get_higest_lowest(self, data):
+    #Hämta in datan och konvertera till en Dataframe
+    df = pd.DataFrame(data)
+    #Jag plockar ut det senaste året som finns i datan. Jag plockar "kolumn raden" med [1:1] och gör det till en lista med värdena, sen så plockar jag det andra värdet i listan vilket är det senaste året
+    year = list(df[1:1])[1]
+
+    # Jag hämtar index för maxvärdet i kolumn year (2022)
+    index_max_value_latest = df[year].idxmax()
+    #Hämtar ut landets kod med samma index
+    country_max_value_latest = df.loc[index_max_value_latest, 'Country']
+    # Konverterar landets code (SWE) till Sweden
+    country_name_max = cc.single_country_code(country_max_value_latest)
+    #Hämtar ut värdet för index
+    value_max_value_latest = df.loc[index_max_value_latest, year]
+    
+    index_min_value_latest = df[year].idxmin()
+    country_min_value_latest = df.loc[index_min_value_latest, 'Country']
+    country_name_min = cc.single_country_code(country_min_value_latest)
+    value_min_value_latest = df.loc[index_min_value_latest, year]
     
     
-    
-    
+    return[{country_name_max: value_max_value_latest}, {country_name_min: value_min_value_latest}]
     
   def create_dataframe(self, type):
     #Plockar ut enbart datan från JSON-filen på datan som ska presenteras

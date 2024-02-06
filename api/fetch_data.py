@@ -32,7 +32,7 @@ def inflation_data():
     return {"message": 'Failed to save new inflation data to json', "status": False, "last_updated": get_last_updated_date('inflation')}
 
   return {"message": "Success", "status": True, "last_updated": get_last_updated_date('inflation')}
-  
+
 def gdp_data():
   message = ''
   gdp_data_api = {}
@@ -102,5 +102,4 @@ def get_last_updated_date(type):
   with open('api/data.json', 'r') as file:
     data_json = json.load(file)
     return data_json[type]['last_updated']
-    
-      
+
