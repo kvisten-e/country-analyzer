@@ -1,6 +1,6 @@
 # Country Analyzer Europe
 
-Välkommen till Country Analyzer för Europa, en avancerad applikation designad för att analysera finansiell data för Europas länder. Detta verktyg erbjuder insiktsfull analys av nyckelekonomiska indikatorer, vilket hjälper användare att förstå de finansiella hälsotillstånden och trenderna hos nationer över hela Europa.
+Välkommen till Country Analyzer för Europa, en applikation designad för att analysera finansiell data för Europas länder. Detta verktyg erbjuder insiktsfull analys av nyckelekonomiska indikatorer, vilket hjälper användaren att förstå de finansiella trenderna för länder över hela Europa.
 
 ## Datahantering
 
