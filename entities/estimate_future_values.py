@@ -3,32 +3,37 @@ from sklearn.linear_model import LinearRegression
 import numpy as np
 from .show_data_country import *
 
+# Denna funktion skapar ett estimerat resultat med hjälp av Linjär regression
 def estimate_future(year, code):
+  # Hämta in ett lands data
   data_total = get_country_data(code)
 
+  # Loppar igeom varje data typ
   for each_type in data_total:
     match each_type['type']:
       case 'inflation':
         print("\nInflation estimated based on Linear Regression")  
-    
+        # Skapar en ny dict och tilldelar data som tidigare hämtas med funktion "get_country_data" och plockar ut varje värde inder 'year', 'type' och 'value'
         data = {
           'Year': each_type['year'],
           each_type['type']: each_type['value']
         }
-        # Create a DataFrame
+
         df = pd.DataFrame(data)
 
-        # Reshape the data (scikit-learn expects a 2D array for the independent variables)
-        x = df['Year'].values.reshape(-1, 1)  # Independent variable
-        y = df[each_type['type']].values  # Dependent variable
+        # Data omformas för att formatet ska passa biblioteket "sklearn.linear_model"
+        x = df['Year'].values.reshape(-1, 1) 
+        y = df[each_type['type']].values
 
-        # Create and fit the model
+        # En modell skapas och tränas för att se sammanhanget mellan x och y. För att senare kunna ta fram ett värde baserat på vilket år den blir tilldelad
         model = LinearRegression()
         model.fit(x, y)
 
-        # Predict the inflation for year
+        # Ta fram vilket år som modellen ska estimera fram ett värde på. Year formateras om med hjälp av Numpy för att passa inmatning till model.predict.
         forecast_year = np.array([[year]])
+        # Ett esitmerat värde tas fram med hjälp av .predict() ifrån "LinearRegression"
         predicted_inflation = model.predict(forecast_year)
+        # Värdet rundas av med två decimaler.
         predicted_inflation = round(predicted_inflation[0],2)
         # Loc tillåter mig att lägga till nytt värde i min dataframe baserat på vilket index jag väljer att det nya värdet ska hamna på
         df.loc[len(df)] = [year, predicted_inflation]
@@ -91,3 +96,4 @@ def estimate_future(year, code):
         df['Year'] = df['Year'].apply(lambda x: f" est. {int(x)}" if int(x) > datetime.datetime.now().year else int(x))        
         no_index = df.to_string(index=False)
         print(no_index, "\n")
+
