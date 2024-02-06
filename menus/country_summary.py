@@ -8,6 +8,7 @@ import datetime
 class summary_country:
 
   def choose_country(self):
+    #Skriver ut alla länder som man kan välja att hämta data på
     sl.get_all_countries()
 
     run = True
@@ -40,8 +41,10 @@ class summary_country:
           while run:
             answer = input("Choose country (e.g., SWE): ").strip().upper()
             if self.check_country_code_exist(answer):
+              # Kollar så att landet man ska jämnföra mot inte är samma som första valet
               if country_code != answer:
                 run = False
+                # Kallar på fuktioen "compare_countries" som i sin tur printar ut data
                 sdc.compare_countries(country_code, answer)
               else:
                 print("The countries cannot be the same as each other")  
@@ -56,21 +59,17 @@ class summary_country:
               choose_year = False
               ef.estimate_future(estimate_year, country_code)
             else:
-              print("Choose a year larger than this year")
+              print("Select a year that is greater than the current year.")
         case "3":
           run = False
         case _:
           print("Wrong input, try again")
-        
-  
-  def see_all_countries(self):  
-    print("test")
-    
-    
+
+  # Landets kod (SWE) skickas in och funktionen kollar om landet finns med i csv-filen, om så är fallet så returneras true
   def check_country_code_exist(self, code):
     csv_data = pd.read_csv("country_codes/country_codes.csv")
     data = pd.DataFrame(csv_data)
-    
+    # .isin() är en pandas metod som tillåter en att leta i en dataframe efter ett värde. 
     if data.isin([code]).any().any():
       return True
     else:

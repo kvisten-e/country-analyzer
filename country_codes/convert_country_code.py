@@ -1,5 +1,6 @@
 import pandas as pd
 
+# Denna funktion får ett lands kod och retunerar landets fulla namn. 
 def single_country_code(code):
   #Läs in data från csv-fil och gör en Dataframe class av det med hjälp av pandas
   df = pd.read_csv('country_codes/country_codes.csv')
@@ -13,6 +14,7 @@ def single_country_code(code):
 
 #print(single_country_code("SWE"))
 
+# Denna funktion skapar en lista med alla länders koder. 
 def list_country_codes():
   country_codes = []
   df = pd.read_csv('country_codes/country_codes.csv')

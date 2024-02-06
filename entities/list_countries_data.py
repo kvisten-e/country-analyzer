@@ -7,12 +7,13 @@ class countries_data():
   data = pd.read_json('api/data.json')
   df = pd.DataFrame(data)
   
+  # Skriver ut alla länders data beroende på typ (Inflation eller ränta)
   def list_countries(self, type):
     #Skriver ut vilken typ av data som ska presenteras
     print(f"\n{type}")
     
     #Kallar på funktionen som skapar ny dict med alla länders data
-    country_dict = self.create_dataframe(type)
+    country_dict = self.get_data_for_dataframe(type)
     result = self.get_higest_lowest(country_dict)
     
     # Gör en Dataframe av våran nya dict.
@@ -32,12 +33,13 @@ class countries_data():
           first_print = False
         else:
           print(f"{country} have the lowest {type}: {round(value,1)}")
-
-
+  
+  
+  # Skriver ut alla länders GDP data
   def list_countries_gdp(self):
     print(f"\nGDP ($ Billions)")
     
-    country_dict = self.create_dataframe('GDP')
+    country_dict = self.get_data_for_dataframe('GDP')
     result = self.get_higest_lowest(country_dict)
     
     
@@ -57,7 +59,8 @@ class countries_data():
           first_print = False
         else:
           print(f"{country} have the lowest GDP: {round(value / 1000000000)}")
-    
+
+  # Tar fram det högsta och lägsta värdet för det senaste året från 
   def get_higest_lowest(self, data):
     #Hämta in datan och konvertera till en Dataframe
     df = pd.DataFrame(data)
@@ -80,8 +83,9 @@ class countries_data():
     
     
     return[{country_name_max: value_max_value_latest}, {country_name_min: value_min_value_latest}]
-    
-  def create_dataframe(self, type):
+  
+  #Här hämtas och konverteras type (gdp, inflation, interest_rate) data och retuneras. 
+  def get_data_for_dataframe(self, type):
     #Plockar ut enbart datan från JSON-filen på datan som ska presenteras
     values_df = self.df[type]['countries']
     

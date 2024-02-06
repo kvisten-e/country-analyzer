@@ -4,7 +4,7 @@ import datetime
 grab_json_data = pd.read_json("api/data.json")
 df = pd.DataFrame(grab_json_data)
 
-
+# Skriver ut en enskillds lands data
 def print_country_data(country_code):
   for each_data in df:
     print(f"\n{each_data}")
@@ -41,7 +41,7 @@ def print_country_data(country_code):
       no_index = data_df.to_string(index=False)
       print(no_index)
 
-    
+# Jämnför data mellan två länder
 def compare_countries(country_code, compare_country_code):
   for each_data in df:
     print(f"\n{each_data}")
@@ -85,7 +85,8 @@ def compare_countries(country_code, compare_country_code):
       data_df['Year'] = data_df['Year'].apply(lambda x: f" est. {x}" if int(x) > datetime.datetime.now().year else x)
       no_index = data_df.to_string(index=False)
       print(no_index)
-    
+      
+# Denna funktion används för att hämta ett en enskillds lands data och retunera den
 def get_country_data(country_code):
   data_total = []
   for each_data in df:

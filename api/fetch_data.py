@@ -4,28 +4,34 @@ from .save_data import save_data_inflation, save_data_gdp, save_interest_rate_gd
 import urllib, json
 from country_codes.convert_country_code import list_country_codes
 
-#european_countries = ["AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU", "LUX", "MLT", "NLD", "POL", "PRT", "ROU", "SVK", "SVN", "ESP", "SWE"]
+# Hämtar in en lista på alla länder koder (SWE,DDK,DEU..)
 european_countries = list_country_codes()
 
+# Skapar ett en lista med start och slut år för data som ska presenteras. 
 def years_for_data():  
   return [datetime.datetime.now().year-6, datetime.datetime.now().year]
 year = years_for_data()
 
-
+# Hämtar inflationsdata ifrån biblioteket wbgapi (World Bank's data API)
 def inflation_data():
-  
+  # Skapar en tom dict. Denna ska innehålla varje land med tillhörande data för varje år
   inflation_data_api = {}
   try:
+    # Hämtar in data. "FP.CPI.TOTL.ZG" = vilken typ av data som ska hämtas från databasen. Resten är vilka länder och mellan vilka år som datan ska innehålla
     data = wb.data.fetch('FP.CPI.TOTL.ZG', european_countries, range(year[0], year[1]))
+    #Gör en loop för varje resultat (Varje land med data för varje år)
     for row in data:
+      # Kollar om landet inte redan finns i "inflation_data_api" som nyckel, om så är fallet, lägg till datan ({'SWE':{år:värde}})
       if row['economy'] not in inflation_data_api.keys():
         inflation_data_api[row['economy']] = {int(row['time'][2:]): round(row['value'],2)}
+      # Skulle landet redan finnas med, fyll då på med värde för det året som loppas.
       else:
         inflation_data_api[row['economy']][int(row['time'][2:])] = round(row['value'],2)
-      
+  #Skulle APIn ligga nere eller få Timeout så kommer detta meddelande att retuneras. "Status" kommer senare bestämma om meddelandet ska skrivas ut. "last_updated" hämtar när datan senast hämtades 
   except Exception as e:
     return {"message": 'Failed to fetch new inflation data', "status": False, "last_updated": get_last_updated_date('inflation')}
-    
+
+  #Denna kod sparar den hämtade datan till min JSON-fil
   try:  
     save_data_inflation(inflation_data_api)
   except:
