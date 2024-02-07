@@ -9,7 +9,7 @@ Country Analyzer Europe är en applikation utvecklad för att analysera och pres
 För att starta Country Analyzer Europe, kör följande kommando i terminalen eller kommandotolken:
 
 ```
-python main.py
+py main.py
 ```
 
 ### Programflöde
