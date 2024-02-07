@@ -21,7 +21,8 @@ py main.py
 #### Analysalternativ:
 
 - **Enskilt Land:** Analyserar och presenterar ekonomiska indikatorer för ett specifikt valt land.
-***Prognos:*** Genererar en ekonomisk prognos baserad på linjär regression för ett specifikt land och år.
+***Prognos:*** Genererar en ekonomisk prognos baserad på linjär regression för ett specifikt år.
+***Jämnför:*** Ställer två länder sida vid sida för att enkelt kunna jämnföra.
 - **Alla Länder:** Jämför ekonomiska indikatorer (BNP, inflation, räntor) över alla Europas länder.
 
 ### Avsluta Programmet
