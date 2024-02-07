@@ -93,7 +93,6 @@ def interest_rate_data():
             trim_values = dict(reversed(list(trim_values.items())))
             
       # Här skapar jag en ny dict med landets förkortning och en dict med year: rate datan. Den läggs då till i "interest_data_api"
-      print(trim_values)
       interest_data_api[country] = trim_values
       
   except Exception as e:

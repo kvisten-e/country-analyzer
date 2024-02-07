@@ -1,12 +1,39 @@
 # Country Analyzer Europe
 
-Välkommen till Country Analyzer för Europa, en applikation designad för att analysera finansiell data för Europas länder. Detta verktyg erbjuder insiktsfull analys av nyckelekonomiska indikatorer, vilket hjälper användaren att förstå de finansiella trenderna för länder över hela Europa.
+## Översikt
+
+Country Analyzer Europe är en applikation utvecklad för att analysera och presentera ekonomisk data för Europas länder. Genom att använda sig av aktuella data från Världsbankens och Internationella Valutafondens API:er, möjliggör programmet insiktsfull analys av nyckelekonomiska indikatorer som BNP, inflation och räntor.
+
+### Starta Programmet
+
+För att starta Country Analyzer Europe, kör följande kommando i terminalen eller kommandotolken:
+
+```
+python main.py
+```
+
+### Programflöde
+
+1. **Datahämtning:** Vid uppstart hämtar programmet automatiskt den senaste ekonomiska datan från definierade API:er och uppdaterar en lokal JSON-fil för offline-användning.
+
+2. **Huvudmeny:** Användaren navigerar genom en interaktiv meny för att välja önskad analys eller funktion.
+
+#### Analysalternativ:
+
+- **Enskilt Land:** Analyserar och presenterar ekonomiska indikatorer för ett specifikt valt land.
+- ***Prognos:*** Genererar en ekonomisk prognos baserad på linjär regression för ett specifikt land och år.
+- **Alla Länder:** Jämför ekonomiska indikatorer (BNP, inflation, räntor) över alla Europas länder.
+
+### Avsluta Programmet
+
+Användaren kan när som helst välja att avsluta programmet genom att välja motsvarande alternativ i huvudmenyn.
+
 
 ## Datahantering
 
 Applikationen fokuserar på analys av följande ekonomiska indikatorer:
 
-- BNP (Bruttonationalprodukt)
+- BNP (Gross domestic product - GDP)
 - Inflation
 - Räntor
 
@@ -16,7 +43,7 @@ Data för BNP och inflation hämtas från Världsbankens Data API (wbgapi), som 
 
 Programmet fungerar enligt följande:
 
-1. **Datahämtning:** Vid uppstart hämtar programmet den senaste datan från API:erna för att säkerställa att analyser baseras på den mest aktuella informationen som finns tillgänglig. Den nya datan kommer att uppdatera en lokalt sparad JSON-fil. Så vid ett API-avbrott eller timeout vid uppstart så kommer programmet att förlita sig på den senast sparade lokala datan sen senast programmet kördes. Användaren kommer att meddelas om detta fallback inträffar. När funktionen för hämtning av data är genomförd (lyckad eller ej), så skickas användaren vidare till huvudmenyn.
+1. **Datahämtning:** Vid uppstart hämtar programmet den senaste datan från API:erna för att säkerställa att analyser baseras på den mest aktuella informationen som finns tillgänglig. Den nya datan kommer att uppdatera en lokalt sparad JSON-fil. Så vid ett API-avbrott eller timeout vid uppstart så kommer programmet att förlita sig på den senast sparade lokala datan sen senast programmet kördes. Användaren kommer att meddelas om detta fallback inträffar. När funktionen för hämtning av data är genomförd (lyckad eller ej), så leds användaren till huvudmenyn.
 
 2. **Huvudmeny:** Användaren presenteras med en startmeny som erbjuder olika alternativ för dataanalys. Beroende på val, kommer specifika typer av finansiell data att visas:
 
@@ -30,7 +57,7 @@ Programmet fungerar enligt följande:
 
 3. **Meny "Finansiell Data för Ett Enskilt Land":**
 
-   Vid detta val så tillfrågas användaren att välja ett land som man vill analysera data på. Klassen "summary_country" skapas och triggar funktionen "choose_country" som presenterar alla val av lönder som finns tillgängliga. Vid felskrivning eller val av ett land som ej finns med på listan så kommer man få möjligheten att försöka igen. 
+   Vid detta val så tillfrågas användaren att välja ett land som man vill analysera data på. Klassen "summary_country" skapas och triggar funktionen "choose_country" som presenterar alla val av länder som finns tillgängliga. Vid felskrivning eller val av ett land som ej finns med på listan så kommer man få möjligheten att försöka igen. 
 
    Vid lyckad input så kommer funktionen "print_country_data" att kallas och presentera tillgänglig data för just det land som man valt.
    En ny meny kommer att visas och ger användaren ytteliggare val att göra för att jobba med datan som presenterats. 
@@ -48,10 +75,21 @@ Programmet fungerar enligt följande:
 
 Vid val av 2,3 eller 4 i huvudmeny så kommer data för respektive indikator att presenteras över alla länder i Europa. Klassen "countries_data" skapas för att sen kunna kallas på för att kunna hämta ut den funktion som behövs för det val man gör. 
 
-- **Visa BNP-data för Alla Länder:** När detta val väljs, visas en lista över alla Europas länder tillsammans med deras BNP-data för ett satt årsspann. Denna funktion låter användare förstå den ekonomiska storleken och produktiviteten för varje land i förhållande till andra. Funktionen "list_countries_gdp" anropas och data för den indikatorn hämtas från JSON-filen. 
+- **Visa BNP-data för Alla Länder:** När detta val väljs, visas en lista över alla Europas länder tillsammans med deras BNP-data för ett satt årsspann. Denna funktion låter användare förstå den ekonomiska storleken och produktiviteten för varje land i förhållande till andra. Funktionen "list_countries_gdp" anropas och data för den indikatorn hämtas från JSON-filen. En dataframe av datan skapas och värden avrundas ner för att vara mer lätt läst. 
+Resultat för vilket land som har högst och lägst värde kommer att presenteras under listan på all data. Funktionen "get_higest_lowest" blir tilldelad data och retunerar en lista på två länder samt dess värde.
 
 - **Visa Inflationsdata för Alla Länder:** Detta alternativ presenterar en lista över Europeiska länder och deras inflationstakt över en vald period. Användare kan analysera hur priser har ökat över olika nationer, vilket indikerar inflationstrycket inom varje ekonomi.
+Likt val av BNP-data så kallas en funktion men nu list_countries istället. Denna funkar för både inflationsdata och räntedata då dess data inte behöver bearbetas på samma sätt som BNP-datan.
 
-- **Visa Räntedata för Alla Länder:** Genom att välja detta, kan användare få tillgång till en lista som visar räntorna för Europeiska länder för en given tidsram. Denna data hjälper till att förstå penningpolitiken för varje land, inklusive hur det hanterar inflation och stimulerar eller svalnar ekonomin.
+- **Visa Räntedata för Alla Länder:** Genom att välja detta, kan användare få tillgång till en lista som visar räntorna för Europeiska länder för ett satt årsspann. Denna data hjälper till att förstå penningpolitiken för varje land, inklusive hur det hanterar inflation och stimulerar eller svalnar ekonomin.
 
-Var och en av dessa funktioner ger användare omfattande insikter i de finansiella dynamikerna för Europas länder.
+-**Avsluta:** Man kan på ett enkelt sätt avsluta programmet när man känner sig nöjd. Vid detta val så kallas funktionen "close_program" som ser till att loopen som håller igång programmet avslutas
+
+
+Var och en av dessa val ger användare omfattande insikter i de finansiella dynamikerna för Europas länder. Vid utökad tid så hade jag gärna jobbat vidare med att hämta in mer data längre tillbaka i tiden för respektive ekonomisk data. Detta kommer sen bli användbart vid framtagning av fler estimerings metoder av framtida värden. Det hade även varit intressant att 
+
+
+
+
+
+

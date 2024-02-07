@@ -10,7 +10,12 @@ class countries_data():
   # Skriver ut alla länders data beroende på typ (Inflation eller ränta)
   def list_countries(self, type):
     #Skriver ut vilken typ av data som ska presenteras
-    print(f"\n{type}")
+    if type == 'inflation':
+      text_type = "Inflation"
+      print(f"\n{text_type}")
+    else:
+      text_type = "Interest rate"
+      print(f"\n{text_type}")
     
     #Kallar på funktionen som skapar ny dict med alla länders data
     country_dict = self.get_data_for_dataframe(type)
@@ -29,10 +34,10 @@ class countries_data():
     for result_dict in result:
       for country, value in result_dict.items():
         if first_print:
-          print(f"{country} have the highest {type}: {round(value,1)}")
+          print(f"{country} have the highest {text_type.lower()}: {round(value,1)}")
           first_print = False
         else:
-          print(f"{country} have the lowest {type}: {round(value,1)}")
+          print(f"{country} have the lowest {text_type.lower()}: {round(value,1)}")
   
   
   # Skriver ut alla länders GDP data
