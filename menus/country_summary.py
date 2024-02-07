@@ -33,7 +33,7 @@ class summary_country:
       
   def menu_summary(self, country_code):
     print("\n1. Compare data with another country"
-          "\n2. Create forecast for X years"
+          "\n2. Create forecast for year X"
           "\n3. Go to start menu")
     
     run = True
