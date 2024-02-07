@@ -96,7 +96,7 @@ def estimate_future(year, code):
         predicted_inflation = round(predicted_inflation[0],2)
 
         df.loc[len(df)] = [year, predicted_inflation]
-        
+        df = df.sort_values(by='Year')
         df[interest_rate_text] = df[interest_rate_text].apply(lambda x: f"{round(x,2)}%")
         df['Year'] = df['Year'].apply(lambda x: f" est. {int(x)}" if int(x) > datetime.datetime.now().year else int(x))        
         no_index = df.to_string(index=False)
