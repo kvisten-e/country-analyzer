@@ -25,8 +25,8 @@ class countries_data():
     data_df_no_index = data_df.to_string(index=False)
     print(data_df_no_index, "\n")
     
+    first_print = True
     for result_dict in result:
-      first_print = True
       for country, value in result_dict.items():
         if first_print:
           print(f"{country} have the highest {type}: {round(value,1)}")
@@ -51,8 +51,8 @@ class countries_data():
     data_df_no_index = data_df.to_string(index=False)
     print(data_df_no_index, "\n")      
     
+    first_print = True    
     for result_dict in result:
-      first_print = True
       for country, value in result_dict.items():
         if first_print:
           print(f"{country} have the highest GDP: {round(value / 1000000000)}")
