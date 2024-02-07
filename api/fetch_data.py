@@ -88,8 +88,12 @@ def interest_rate_data():
           if year_row > year[1]-7 and year_row < year[1]-1:
             # Lägger in datan i 'trim_values
             trim_values[year_str] = rate
+            # Då datan som hämtas från IMF har en annan riktning sett till wbgapi så måste jag göra en reverse på den.
+            # Jag plockar keys och values ifrån trim_values och lägger dem i en lista, jag gör en reverse på listan och formenterar om listan till en dict igen. 
+            trim_values = dict(reversed(list(trim_values.items())))
             
-      # Här skapar jag en ny dict med landets förkortning och en dict med year: rate datan. Den läggs då till i "interest_data_api"                
+      # Här skapar jag en ny dict med landets förkortning och en dict med year: rate datan. Den läggs då till i "interest_data_api"
+      print(trim_values)
       interest_data_api[country] = trim_values
       
   except Exception as e:
