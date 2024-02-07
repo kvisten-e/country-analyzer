@@ -6,7 +6,7 @@ import pandas as pd
 import datetime
 
 class summary_country:
-
+  # Funktionen låter användaren skriva in vilket land man vill ta fram data
   def choose_country(self):
     #Skriver ut alla länder som man kan välja att hämta data på
     sl.get_all_countries()
@@ -16,10 +16,14 @@ class summary_country:
       try:
         print("\n -- Menu: View a country's financial development --")
         answer = input("Choose country (e.g., SWE): ").strip()
+        # Kollar att ens val av land finns med i datan. Den stämmer av med en lokalt sparad csv-fil med alla länder tillgängliga
         if self.check_country_code_exist(answer.strip().upper()):
           run = False
-          print(f"\n{cc.single_country_code(answer.upper())}")  
-          sdc.print_country_data(answer.upper())    
+          # Översätter landes kod till sitt fulla namn
+          print(f"\n{cc.single_country_code(answer.upper())}") 
+          # Skriver ut landets data
+          sdc.print_country_data(answer.upper())
+          #Startar meny för att kunna arbeta vidare med den data som presenterats
           self.menu_summary(answer.upper())
         else:
           print("The country does not exist, try again")
@@ -53,10 +57,13 @@ class summary_country:
         case "2":
           choose_year = True
           while choose_year:
+            # Låter användaren mata in ett år för att skapa en prognos på
             estimate_year = int(input("Choose a year: "))
+            # Året måste vara större än nuvarande år (2024)
             if estimate_year > datetime.datetime.now().year:
               run = False
               choose_year = False
+              # Uppfylls kravet så avslutas looparna run & choose_year och funktionen "estimate_future" startas
               ef.estimate_future(estimate_year, country_code)
             else:
               print("Select a year that is greater than the current year.")

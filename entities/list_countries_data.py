@@ -19,6 +19,7 @@ class countries_data():
     
     #Kallar på funktionen som skapar ny dict med alla länders data
     country_dict = self.get_data_for_dataframe(type)
+    #Hämtar in data på det land som har högst samt lägst värde för det senaste året
     result = self.get_higest_lowest(country_dict)
     
     # Gör en Dataframe av våran nya dict.
@@ -30,7 +31,9 @@ class countries_data():
     data_df_no_index = data_df.to_string(index=False)
     print(data_df_no_index, "\n")
     
+    #Definerear en variabel och tilldelar den True för att i loopen nedan kunna köra else: den andra omgången
     first_print = True
+    #Loopar igenom listan på landet och dess värde.
     for result_dict in result:
       for country, value in result_dict.items():
         if first_print:

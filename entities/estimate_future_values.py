@@ -37,10 +37,15 @@ def estimate_future(year, code):
         predicted_inflation = round(predicted_inflation[0],2)
         # Loc tillåter mig att lägga till nytt värde i min dataframe baserat på vilket index jag väljer att det nya värdet ska hamna på
         df.loc[len(df)] = [year, predicted_inflation]
+        
+        #Sortera listan efter key 'year'
         df = df.sort_values(by='Year')
         
+        #Loopar igenom varje värde under key [each_type['type]] och avrundar dess värde med två decimaler
         df[each_type['type']] = df[each_type['type']].apply(lambda x: f"{round(x,2)}%")
-        df['Year'] = df['Year'].apply(lambda x: f" est. {int(x)}" if int(x) > datetime.datetime.now().year else int(x))        
+        #Kollar om något value under keyn 'Year' är större än detta året, om så är fallet, läggs est. i början av texten
+        df['Year'] = df['Year'].apply(lambda x: f" est. {int(x)}" if int(x) > datetime.datetime.now().year else int(x))  
+        # Index värdet för varje rad tas bort.       
         no_index = df.to_string(index=False)
         print(no_index)
         
