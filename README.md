@@ -83,8 +83,9 @@ Likt val av BNP-data så kallas en funktion men nu list_countries istället. Den
 
 - **Visa Räntedata för Alla Länder:** Genom att välja detta, kan användare få tillgång till en lista som visar räntorna för Europeiska länder för ett satt årsspann. Denna data hjälper till att förstå penningpolitiken för varje land, inklusive hur det hanterar inflation och stimulerar eller svalnar ekonomin.
 
--**Avsluta:** Man kan på ett enkelt sätt avsluta programmet när man känner sig nöjd. Vid detta val så kallas funktionen "close_program" som ser till att loopen som håller igång programmet avslutas
+- **Avsluta:** Man kan på ett enkelt sätt avsluta programmet när man känner sig nöjd. Vid detta val så kallas funktionen "close_program" som ser till att loopen som håller igång programmet avslutas
 
+## Sammanfattning
 
 Var och en av dessa val ger användare omfattande insikter i de finansiella dynamikerna för Europas länder. Vid utökad tid så hade jag gärna jobbat vidare med att hämta in mer data längre tillbaka i tiden för respektive ekonomisk data. Detta kommer sen bli användbart vid framtagning av fler estimerings metoder av framtida värden. Det hade även varit intressant att 
 
