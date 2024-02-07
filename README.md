@@ -66,15 +66,16 @@ Programmet fungerar enligt följande:
    - **Jämför Data med Annat Land:** Möjliggör för användare att ställa ett lands data mot en annan sida vid sida för att enkelt och tydligt se vilket land som har bättre finansiella indikatorer. Likt tidigare så blir man tillfrågad att mata in vilket land man vill jämnföra med och funktionen "compare_countries" anropas med båda ländernas koder. Denna funktion kommer sen att skapa en ny dataframe där den ställer resultaten för båda ländernas data bredvid varanda samt visa en procent skillnad mellan dem.
    
    - **Skapa en Prognos för år X:** För närvarande förlitar sig programmet enbart på "Linjär Regression"-metoden, så resultatet kan inte ses som en pålitlig källa. För att ta fram det estimerat värdet, så använder sig programmet på biblioteket "sklearn.linear_model".
-   Vid en senare version och mer utveklad program så hade man behövt använda sig av mer avancerade metoder för att estimera pålitlig data. 
+   Vid en senare version och mer utveklad program så hade man behövt använda sig av mer avancerade metoder för att estimera pålitlig data.
+ 
    Man blir tillfrågad att mata in vilket år som man vill ett etimerat värde på och funktionen "estimate_future" anropas med dess värde och landets kod.
-   Data för landet hämtas in och programmat skapar en modell med "sklearn" baserat på den hämtade datan för att kuna genomföra .predict()-metoden som kommer att skapa ett värde.
+   Data för landet hämtas in och programmat skapar en modell med "sklearn" baserat på den hämtade datan för att kunna genomföra .predict()-metoden som kommer att skapa ett värde.
    Det nya värdet och dess år läggs in med den andra datan och presenteras. 
 
 
 ### Ytterligare Funktioner:
 
-Vid val av 2,3 eller 4 i huvudmeny så kommer data för respektive indikator att presenteras över alla länder i Europa. Klassen "countries_data" skapas för att sen kunna kallas på för att kunna hämta ut den funktion som behövs för det val man gör. 
+När alternativ 2, 3, eller 4 väljs i huvudmenyn, presenteras data för den specifika indikatorn för samtliga länder i Europa. För detta ändamål instansieras klassen "countries_data", vilken sedan används för att anropa den relevanta funktionen baserat på användarens val.
 
 - **Visa BNP-data för Alla Länder:** När detta val väljs, visas en lista över alla Europas länder tillsammans med deras BNP-data för ett satt årsspann. Denna funktion låter användare förstå den ekonomiska storleken och produktiviteten för varje land i förhållande till andra. Funktionen "list_countries_gdp" anropas och data för den indikatorn hämtas från JSON-filen. En dataframe av datan skapas och värden avrundas ner för att vara mer lätt läst. 
 Resultat för vilket land som har högst och lägst värde kommer att presenteras under listan på all data. Funktionen "get_higest_lowest" blir tilldelad data och retunerar en lista på två länder samt dess värde.
@@ -88,7 +89,7 @@ Likt val av BNP-data så kallas en funktion men nu list_countries istället. Den
 
 ## Sammanfattning
 
-Var och en av dessa val ger användare omfattande insikter i de finansiella dynamikerna för Europas länder. Vid utökad tid så hade jag gärna jobbat vidare med att hämta in mer data längre tillbaka i tiden för respektive ekonomisk data. Detta kommer sen bli användbart vid framtagning av fler estimerings metoder av framtida värden. Det hade även varit intressant att 
+Var och en av dessa val ger användare omfattande insikter i de finansiella dynamikerna för Europas länder. Vid utökad tid så hade jag gärna jobbat vidare med att hämta in mer data längre tillbaka i tiden för respektive ekonomisk data. Detta kommer sen bli användbart vid framtagning av fler estimerings metoder av framtida värden. Det hade även varit intressant att lägga till mer data som arbetskraft och valutaförändringar för respektive land. 
 
 
 
