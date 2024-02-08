@@ -2,7 +2,7 @@
 
 ## Översikt
 
-Country Analyzer Europe är en applikation utvecklad för att analysera och presentera ekonomisk data för Europas länder. Genom att använda sig av aktuella data från Världsbankens och Internationella Valutafondens API:er, möjliggör programmet insiktsfull analys av nyckelekonomiska indikatorer som BNP, inflation och räntor.
+Country Analyzer Europe är en applikation utvecklad för att analysera och presentera ekonomisk data för Europas länder. Genom att använda sig av aktuella data från Världsbankens och Internationella Valutafondens API:er, möjliggör programmet insiktsfull analys av ekonomiska indikatorer så som BNP, inflation och räntor.
 
 ### Starta Programmet
 
@@ -16,11 +16,11 @@ py main.py
 
 1. **Datahämtning:** Vid uppstart hämtar programmet automatiskt den senaste ekonomiska datan från definierade API:er och uppdaterar en lokal JSON-fil för offline-användning.
 
-2. **Huvudmeny:** Användaren navigerar genom en interaktiv meny för att välja önskad analys eller funktion.
+2. **Huvudmeny:** Användaren navigerar genom en interaktiv meny för att välja önskad funktion.
 
 #### Analysalternativ:
 
-- **Enskilt Land:** Analyserar och presenterar ekonomiska indikatorer för ett specifikt valt land.
+- **Enskilt Land:** Analysera och presentera ekonomiska data för ett specifikt valt land.
 ***Prognos:*** Genererar en ekonomisk prognos baserad på linjär regression för ett specifikt år.
 ***Jämnför:*** Ställer två länder sida vid sida för att enkelt kunna jämnföra.
 - **Alla Länder:** Jämför ekonomiska indikatorer (BNP, inflation, räntor) över alla Europas länder.
@@ -44,7 +44,7 @@ Data för BNP och inflation hämtas från Världsbankens Data API (wbgapi), som 
 
 Programmet fungerar enligt följande:
 
-1. **Datahämtning:** Vid uppstart hämtar programmet den senaste datan från API:erna för att säkerställa att analyser baseras på den mest aktuella informationen som finns tillgänglig. Den nya datan kommer att uppdatera en lokalt sparad JSON-fil. Så vid ett API-avbrott eller timeout vid uppstart så kommer programmet att förlita sig på den senast sparade lokala datan sen senast programmet kördes. Användaren kommer att meddelas om detta fallback inträffar. När funktionen för hämtning av data är genomförd (lyckad eller ej), så leds användaren till huvudmenyn.
+1. **Datahämtning:** Vid uppstart hämtar programmet den senaste datan från API:erna för att säkerställa att analyser baseras på den mest aktuella informationen som finns tillgänglig. Den nya datan kommer att uppdatera en lokalt sparad JSON-fil. Vid ett API-avbrott eller timeout vid uppstart så kommer programmet att förlita sig på den senast sparade lokala datan sen senast programmet kördes. Användaren kommer att meddelas om detta fallback inträffar. När funktionen för hämtning av data är genomförd (lyckad eller ej), så leds användaren till huvudmenyn.
 
 2. **Huvudmeny:** Användaren presenteras med en startmeny som erbjuder olika alternativ för dataanalys. Beroende på val, kommer specifika typer av finansiell data att visas:
 
@@ -54,7 +54,7 @@ Programmet fungerar enligt följande:
 
    - **Visa Inflationsdata för Alla Länder:** Undersök inflationstrender och data för varje land i Europa.
 
-   - **Visa Räntedata för Alla Länder:** Bedöm räntorna för Europas länder, vilket ger insikter om penningpolitik och ekonomiska förhållanden.
+   - **Visa Räntedata för Alla Länder:** Bedöm räntorna för Europas länder.
 
 3. **Meny "Finansiell Data för Ett Enskilt Land":**
 
@@ -67,7 +67,7 @@ Programmet fungerar enligt följande:
    
    - **Skapa en Prognos för år X:** För närvarande förlitar sig programmet enbart på "Linjär Regression"-metoden, så resultatet kan inte ses som en pålitlig källa. För att ta fram det estimerat värdet, så använder sig programmet på biblioteket "sklearn.linear_model".
    Vid en senare version och mer utveklad program så hade man behövt använda sig av mer avancerade metoder för att estimera pålitlig data.
- 
+
    Man blir tillfrågad att mata in vilket år som man vill ett etimerat värde på och funktionen "estimate_future" anropas med dess värde och landets kod.
    Data för landet hämtas in och programmat skapar en modell med "sklearn" baserat på den hämtade datan för att kunna genomföra .predict()-metoden som kommer att skapa ett värde.
    Det nya värdet och dess år läggs in med den andra datan och presenteras. 
@@ -75,7 +75,7 @@ Programmet fungerar enligt följande:
 
 ### Ytterligare Funktioner:
 
-När alternativ 2, 3, eller 4 väljs i huvudmenyn, presenteras data för den specifika indikatorn för samtliga länder i Europa. För detta ändamål instansieras klassen "countries_data", vilken sedan används för att anropa den relevanta funktionen baserat på användarens val.
+När alternativ 2, 3, eller 4 väljs i huvudmenyn, presenteras data för den specifika indikatorn för samtliga länder i Europa. För detta ändamål skapas klassen "countries_data", vilken sedan används för att anropa den relevanta funktionen baserat på användarens val.
 
 - **Visa BNP-data för Alla Länder:** När detta val väljs, visas en lista över alla Europas länder tillsammans med deras BNP-data för ett satt årsspann. Denna funktion låter användare förstå den ekonomiska storleken och produktiviteten för varje land i förhållande till andra. Funktionen "list_countries_gdp" anropas och data för den indikatorn hämtas från JSON-filen. En dataframe av datan skapas och värden avrundas ner för att vara mer lätt läst. 
 Resultat för vilket land som har högst och lägst värde kommer att presenteras under listan på all data. Funktionen "get_higest_lowest" blir tilldelad data och retunerar en lista på två länder samt dess värde.
@@ -89,7 +89,7 @@ Likt val av BNP-data så kallas en funktion men nu list_countries istället. Den
 
 ## Sammanfattning
 
-Var och en av dessa val ger användare omfattande insikter i de finansiella dynamikerna för Europas länder. Vid utökad tid så hade jag gärna jobbat vidare med att hämta in mer data längre tillbaka i tiden för respektive ekonomisk data. Detta kommer sen bli användbart vid framtagning av fler estimerings metoder av framtida värden. Det hade även varit intressant att lägga till mer data som arbetskraft och valutaförändringar för respektive land. 
+Var och en av dessa val ger användare omfattande insikter i de finansiella dynamikerna för Europas länder. Vid utökad tid så hade jag gärna jobbat vidare med att hämta in mer ekonomisk data över längre tid. Detta kommer sen bli användbart vid framtagning av fler estimerings metoder av framtida värden. Det hade även varit intressant att lägga till mer data som arbetskraft och valutaförändringar för respektive land. 
 
 
 
