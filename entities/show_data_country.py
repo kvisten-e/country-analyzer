@@ -89,15 +89,19 @@ def compare_countries(country_code, compare_country_code):
 # Denna funktion används för att hämta ett en enskillds lands data och retunera den
 def get_country_data(country_code):
   data_total = []
+  # Loopar igenom varje dict från data.json. ('inflation', 'gdp', 'interest_rate')
   for each_data in df:
+    #Plockar ur values från ett land(key). Så alla år och dess värde
     country_data_df = df[each_data]['countries'][country_code]
-  
+    #Skapar en ny dict och strukturerar om datan som sen ska sparas i den nya listan "data_total"
+    #Jag tar åren som hämtas och lägger dem i en lista. Gör samma process för värdena. 
+    #each_data är vilken typ av data det är (inflation)
     data_df = {
       'type': each_data, 
       'year': list(map(int, country_data_df.keys())),
       'value': list(country_data_df.values())
     }
-    
+    #Lägger till den nyskapade dicten i listan
     data_total.append(data_df)
-
+  #Retunerar ett lands totala data
   return data_total

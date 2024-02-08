@@ -1,6 +1,6 @@
 {
   "inflation": {
-    "last_updated": "2024-02-07",
+    "last_updated": "2024-02-08",
     "countries": {
       "SWE": {
         "2022": 8.37,
@@ -194,7 +194,7 @@
     }
   },
   "GDP": {
-    "last_updated": "2024-02-07",
+    "last_updated": "2024-02-08",
     "countries": {
       "SWE": {
         "2022": 587121570858,
@@ -388,7 +388,7 @@
     }
   },
   "interest_rate": {
-    "last_updated": "2024-02-07",
+    "last_updated": "2024-02-08",
     "countries": {
       "AUT": {
         "2022": 8.6,

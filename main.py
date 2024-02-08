@@ -8,4 +8,4 @@ result = get_data()
 #(Skulle någon API inte fungera så kommer programmet att förlita sig på senast sparad data, det kommer då att meddelas när den senaste datan blev hämtad)
 if result:
   #Skapar och kallar på klassen "program"
-  program()  
+  program() 
