@@ -1,5 +1,3 @@
-import pandas as pd
-import wbgapi as wb
 import json
 import datetime
 

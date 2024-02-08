@@ -35,9 +35,8 @@ def print_country_data(country_code):
       
       data_df = pd.DataFrame(data_df)
       data_df = data_df.sort_values(by='Year')
-      data_df['Change % from the previous year'] = round(data_df[each_data].pct_change() * 100,1)
+      data_df['Change % from the previous year'] = round(data_df[each_data].pct_change() * 100, 1)
       data_df['Change % from the previous year'] = data_df['Change % from the previous year'].apply(lambda x: f"{x}%" if pd.notna(x) else "")
-      data_df['Year'] = data_df['Year'].apply(lambda x: f" est. {x}" if int(x) > datetime.datetime.now().year else x)
       no_index = data_df.to_string(index=False)
       print(no_index)
 

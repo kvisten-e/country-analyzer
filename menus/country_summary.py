@@ -5,7 +5,7 @@ import entities.estimate_future_values as ef
 import pandas as pd
 import datetime
 
-class summary_country:
+class Summary_country:
   # Funktionen låter användaren skriva in vilket land man vill ta fram data
   def choose_country(self):
     #Skriver ut alla länder som man kan välja att hämta data på

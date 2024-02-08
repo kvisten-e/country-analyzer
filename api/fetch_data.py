@@ -23,12 +23,12 @@ def inflation_data():
     for row in data:
       # Kollar om landet inte redan finns i "inflation_data_api" som nyckel, om så är fallet, lägg till datan ({'SWE':{år:värde}})
       if row['economy'] not in inflation_data_api.keys():
-        inflation_data_api[row['economy']] = {int(row['time'][2:]): round(row['value'],2)}
+        inflation_data_api[row['economy']] = {int(row['time'][2:]): round(row['value'],2)} 
       # Skulle landet redan finnas med, fyll då på med värde för det året som loppas.
       else:
         inflation_data_api[row['economy']][int(row['time'][2:])] = round(row['value'],2)
   #Skulle APIn ligga nere eller få Timeout så kommer detta meddelande att retuneras. "Status" kommer senare bestämma om meddelandet ska skrivas ut. "last_updated" hämtar när datan senast hämtades 
-  except Exception as e:
+  except:
     return {"message": 'Failed to fetch new inflation data', "status": False, "last_updated": get_last_updated_date('inflation')}
 
   #Denna kod sparar den hämtade datan till min JSON-fil

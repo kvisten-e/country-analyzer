@@ -1,8 +1,7 @@
 import pandas as pd
 import country_codes.convert_country_code as cc
-import numpy as np
 
-class countries_data():
+class Countries_data():
 
   data = pd.read_json('api/data.json')
   df = pd.DataFrame(data)

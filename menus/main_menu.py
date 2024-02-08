@@ -1,9 +1,9 @@
-from .country_summary import summary_country
+from .country_summary import Summary_country
 import program
-from entities.list_countries_data import countries_data
+from entities.list_countries_data import Countries_data
 
 #Skapar klassen main_menu som kallar på funktionen show_main_menu
-class main_menu:
+class Main_menu:
   def show_main_menu(self):
     #Startar en loop för att hantera felskrivning vid val i menyn samt för att kunna avsluta programmet. 
         run = True
@@ -15,12 +15,11 @@ class main_menu:
                 "\n5. Exit")
           answer = input("-> ").strip()
           # Skapar klassen countries_data och tilldelar den till cd
-          cd = countries_data()
+          cd = Countries_data()
           match answer:
             case "1":
               # Denna klass hanterar och skriver ut en enskillds lands data
-              summary_country()
-              
+              Summary_country()
             # De tre funktionerna nedan skriver ut data för respektive typ. 
             case "2":
               cd.list_countries_gdp()
