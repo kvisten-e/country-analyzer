@@ -8,13 +8,14 @@ class Main_menu:
     #Startar en loop för att hantera felskrivning vid val i menyn samt för att kunna avsluta programmet. 
         run = True
         while run:
+          #Main menu printas ut i terminalen
           print("\n1. View a country's financial development"
                 "\n2. View countries GDP"
                 "\n3. View countries Inflation"
                 "\n4. View countries Interest rates"
                 "\n5. Exit")
           answer = input("-> ").strip()
-          # Skapar klassen countries_data och tilldelar den till cd
+          # Skapar klassen countries_data och tilldelar den till cd för senare användning
           cd = Countries_data()
           match answer:
             case "1":

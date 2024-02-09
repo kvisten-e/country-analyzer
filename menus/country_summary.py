@@ -8,7 +8,7 @@ import datetime
 class Summary_country:
   # Funktionen låter användaren skriva in vilket land man vill ta fram data
   def choose_country(self):
-    #Skriver ut alla länder som man kan välja att hämta data på
+    #Skriver ut alla länder i terminalen som man kan välja att hämta data på
     sl.get_all_countries()
 
     run = True
@@ -48,7 +48,7 @@ class Summary_country:
               # Kollar så att landet man ska jämnföra mot inte är samma som första valet
               if country_code != answer:
                 run = False
-                # Kallar på fuktioen "compare_countries" som i sin tur printar ut data
+                # Kallar på fuktioen "compare_countries" som i sin tur printar ut data som jämnför datan
                 sdc.compare_countries(country_code, answer)
               else:
                 print("The countries cannot be the same as each other")  
@@ -75,14 +75,11 @@ class Summary_country:
   # Landets kod (SWE) skickas in och funktionen kollar om landet finns med i csv-filen, om så är fallet så returneras true
   def check_country_code_exist(self, code):
     csv_data = pd.read_csv("country_codes/country_codes.csv")
-    data = pd.DataFrame(csv_data)
     # .isin() är en pandas metod som tillåter en att leta i en dataframe efter ett värde. 
-    if data.isin([code]).any().any():
+    if csv_data.isin([code]).any().any():
       return True
     else:
       return False
     
-    
-  
   def __init__(self):
     self.choose_country()

@@ -1,33 +1,41 @@
 import pandas as pd
 import datetime
 
-grab_json_data = pd.read_json("api/data.json")
-df = pd.DataFrame(grab_json_data)
+df = pd.read_json("api/data.json")
 
 # Skriver ut en enskillds lands data
 def print_country_data(country_code):
+  # Loopar igenom de tre indikatorerna (inflation, gdp, interest_rate)
   for each_data in df:
     print(f"\n{each_data}")
+    #Plockar ut ett lands data för indikatiorn. Det innehåller då år och värde
     country_data_df = df[each_data]['countries'][country_code]
-  
+
+    # Om de är GDP så vill jag skriva ut mer text så därav har den en egen if.
     if each_data == "GDP":
       each_data_text = f"{each_data} ($ billions)"
+      #Skapar en ny dict och lägger in värdena som hämtats
       data_df = {
         'Year': list(map(int, country_data_df.keys())),
         each_data_text: list(country_data_df.values())
       }      
       
+      #Formenterar om dicten till en Dataframe
       data_df = pd.DataFrame(data_df)
+      #Sorterar den på keyn 'year'
       data_df = data_df.sort_values(by='Year')
+      #Går igenom alla värden under keyn 'each_data_text' och skalar ner dess värde för att lättare kunnas presenteras i terminalen
       data_df[each_data_text] = data_df[each_data_text].apply(lambda x: round(x/1000000000))
+      #Skapar här en ny kolumn (key) där jag använder mig av pandas metod .pct_change(). Den ser till att jämnföra procentskillnaden med värdet från raden innan
       data_df['Change % from the previous year'] = round(data_df[each_data_text].pct_change() * 100,1)
       # Jag lägger här till text till den uträknade procentsiffran med ett %-tecken. Jag tar även bort värdet för 2018 då den inte har ett årtal tidigare att jämföras med (pd.notna kollar om x är nan, om så är fallet, gör den tom)
       data_df['Change % from the previous year'] = data_df['Change % from the previous year'].apply(lambda x: f"{x}%" if pd.notna(x) else "")
-      data_df['Year'] = data_df['Year'].apply(lambda x: f" est. {x}" if int(x) > datetime.datetime.now().year else x)
+      #Tar bort index värdena för varje rad då det inte är relevenat för användaren
       no_index = data_df.to_string(index=False)
       print(no_index)      
       
     else:
+      #Denna else tar hand om inflation/interest_rate
       data_df = {
         'Year': list(map(int, country_data_df.keys())),
         each_data: list(country_data_df.values())
@@ -41,6 +49,7 @@ def print_country_data(country_code):
       print(no_index)
 
 # Jämnför data mellan två länder
+# Kod likt tidigare upplägg
 def compare_countries(country_code, compare_country_code):
   for each_data in df:
     print(f"\n{each_data}")
