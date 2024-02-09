@@ -35,8 +35,9 @@ def inflation_data():
   try:  
     save_data_inflation(inflation_data_api)
   except:
+    # Skulle processen an någon anledning brytas så kommer detta meddelande att retuneras. Status sätts till False vilket kommer se till att "message" senare printas ut
     return {"message": 'Failed to save new inflation data to json', "status": False, "last_updated": get_last_updated_date('inflation')}
-
+  # Om allt lyckas så retuneras denna dict med status True. Det kommer då inte få "message" att printas
   return {"message": "Success", "status": True, "last_updated": get_last_updated_date('inflation')}
 
 def gdp_data():
